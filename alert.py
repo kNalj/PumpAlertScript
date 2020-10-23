@@ -123,7 +123,8 @@ class Alert:
         :rtype: NoneType
         """
         subject = "Problem with temperature of one of the compressors !!"
-        text = " ### ALERT ### \n" \
+        text = "THIS IS JUST A TEST, PLEASE IGNORE THIS MESSAGE\n" \
+               " ### ALERT ### \n" \
                "This msg was sent to you because one of your monitored instruments is out of the allowed range " \
                "for temperature.\n" \
                "Time: {} - {}\n" \

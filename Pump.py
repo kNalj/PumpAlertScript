@@ -1,4 +1,4 @@
-# This is a file that represents the pump instrument and all the communication with the intrument will be handeled from
+# This is a file that represents the pump instrument and all the communication with the instrument will be handled from
 # this file
 
 from time import asctime
@@ -41,6 +41,7 @@ class Pump:
 
     def get_temp(self):
         """
+        TODO: One of the two methods that needs to communicate with the real instrument
         TODO: Write documentation
 
         :return:
@@ -50,6 +51,7 @@ class Pump:
 
     def get_errors(self):
         """
+        TODO: One of the two methods that needs to communicate with the real instrument
         TODO: Write documentation
 
         :return:

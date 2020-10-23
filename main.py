@@ -175,8 +175,8 @@ class CompressorMonitor(QMainWindow):
         Try to connect to the instrument. If it succeeds, add the instrument to the table of instruments, otherwise
         return
 
-        TODO 1: Check that name is not taken
-
+        :param data: Passed with a signal from AddInstrumentWidget. Contains data about instrument. (IP, port, name)
+        :type data: dict
         :return:
         :rtype: NoneType
         """
@@ -196,6 +196,9 @@ class CompressorMonitor(QMainWindow):
         :return:
         :rtype: NoneType
         """
+        if instr.name in self.instruments:  # check if the instrument name is taken, if it is, just return
+            return
+
         rows = self.instrument_table.rowCount()
         self.instrument_table.insertRow(rows)
         table_item = QTableWidgetItem(instr.name)
@@ -245,8 +248,8 @@ class CompressorMonitor(QMainWindow):
                                  "temp": temp})
             else:
                 print(temp)
-                self.update_table(row, temp, errors)
-                self.instrument_table.viewport().update()
+            self.update_table(row, temp, errors)
+            self.instrument_table.viewport().update()
 
     def open_settings(self):
         """
