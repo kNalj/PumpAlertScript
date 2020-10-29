@@ -12,6 +12,7 @@ class Pump:
     def __init__(self, name, address, port):
         """
         TODO: Write documentation
+        TODO: Rewrite this driver to work with TELNET
 
         :param name:
         :param address:

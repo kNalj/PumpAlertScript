@@ -9,7 +9,7 @@ class Worker(QRunnable):
     This is a worker thread that inherits from QRunnable to be able to handle thread setup and maintenance
     """
 
-    def __init__(self, func, repeat, *args, **kwargs):
+    def __init__(self, func, *args, **kwargs):
         """
         This is a constructor for the worker class, it runs any function passed to it as a separate thread
         :param func: pointer to the function to be ran in a separate thread
@@ -24,12 +24,6 @@ class Worker(QRunnable):
         self.kwargs = kwargs
         self.signals = WorkerSignals()
 
-        self.stop_requested = False
-        if repeat == True:
-            self.repeat = True
-        else:
-            self.repeat = False
-
         # Add the callback to our kwargs
         # kwargs['progress_callback'] = self.signals.progress
 
@@ -40,38 +34,16 @@ class Worker(QRunnable):
         """
         # Retrieve args/kwargs here; and fire processing using them
 
-        # if what we want is to repeat this action until a stop is called then True will be passed
-        if self.repeat:
-            # stop requested is a signal used and checked on each iteration of this loop to check if the loop execution
-            # should proceed
-            while not self.stop_requested:
-                try:
-                    result = self.func(*self.args, **self.kwargs)
-                except:
-                    traceback.print_exc()
-                    exctype, value = sys.exc_info()[:2]
-                    self.signals.error.emit((exctype, value, traceback.format_exc()))
-                else:
-                    self.signals.result.emit(result)  # Return the result of the processing
-                finally:
-                    self.signals.finished.emit()  # Done
-                # this time sleep determines how long to wait before continuing with the loop
-                time.sleep(1800)
-            else:
-                print("Stop has been requested !")
-        # otherwise if we dont want it to loop, but rather execute just once, then False will be passed and this code
-        # will get executed
+        try:
+            result = self.func(*self.args, **self.kwargs)
+        except:
+            traceback.print_exc()
+            exctype, value = sys.exc_info()[:2]
+            self.signals.error.emit((exctype, value, traceback.format_exc()))
         else:
-            try:
-                result = self.func(*self.args, **self.kwargs)
-            except:
-                traceback.print_exc()
-                exctype, value = sys.exc_info()[:2]
-                self.signals.error.emit((exctype, value, traceback.format_exc()))
-            else:
-                self.signals.result.emit(result)  # Return the result of the processing
-            finally:
-                self.signals.finished.emit()  # Done
+            self.signals.result.emit(result)  # Return the result of the processing
+        finally:
+            self.signals.finished.emit()  # Done
 
 
 class WorkerSignals(QObject):
