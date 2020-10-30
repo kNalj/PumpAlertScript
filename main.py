@@ -271,7 +271,7 @@ class CompressorMonitor(QMainWindow):
         :return:
         """
         if self.ready_to_alert():
-            self.worker = Worker(self.check_all, True)
+            self.worker = Worker(self.check_all)
             self.thread_pool.start(self.worker)
         else:
             show_error_message("You need to login to be able to send alerts", "You did not login. Please do it.")
